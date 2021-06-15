@@ -42,13 +42,13 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
     private boolean mFind = false;
 
     // EditTexts for contact information
-    private TextInputLayout mNameTextInputLayout;
+    private TextInputLayout mNameFTextInputLayout;
     private TextInputLayout mPhoneTextInputLayout;
     private TextInputLayout mEmailTextInputLayout;
-    private TextInputLayout mStreetTextInputLayout;
-    private TextInputLayout mCityTextInputLayout;
-    private TextInputLayout mStateTextInputLayout;
-    private TextInputLayout mZipTextInputLayout;
+    private TextInputLayout mNameITextInputLayout;
+    private TextInputLayout mNameOTextInputLayout;
+    private TextInputLayout mLoginTextInputLayout;
+    private TextInputLayout mPwdTextInputLayout;
 
     private FloatingActionButton mSaveContactFAB;
     private CoordinatorLayout mCoordinatorLayout;
@@ -108,16 +108,16 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
 
-        mNameTextInputLayout = view.findViewById(R.id.nameFTextInputLayout);
-        Objects.requireNonNull(mNameTextInputLayout.getEditText(),
+        mNameFTextInputLayout = view.findViewById(R.id.nameFTextInputLayout);
+        Objects.requireNonNull(mNameFTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).addTextChangedListener(mNameChangedListener);
 
         mPhoneTextInputLayout = view.findViewById(R.id.phoneTextInputLayout);
-        mEmailTextInputLayout = view.findViewById(R.id.nameOTextInputLayout);
-        mStreetTextInputLayout = view.findViewById(R.id.phoneTextInputLayout);
-        mCityTextInputLayout = view.findViewById(R.id.emailTextInputLayout);
-        mStateTextInputLayout = view.findViewById(R.id.loginTextInputLayout);
-        mZipTextInputLayout = view.findViewById(R.id.pwdTextInputLayout);
+        mEmailTextInputLayout = view.findViewById(R.id.emailTextInputLayout);
+        mNameITextInputLayout = view.findViewById(R.id.nameITextInputLayout);
+        mNameOTextInputLayout = view.findViewById(R.id.nameOTextInputLayout);
+        mLoginTextInputLayout = view.findViewById(R.id.loginTextInputLayout);
+        mPwdTextInputLayout = view.findViewById(R.id.pwdTextInputLayout);
 
         mSaveContactFAB = view.findViewById(R.id.saveFAB);
         mSaveContactFAB.setOnClickListener(mSaveContactButtonClicked); // set FAB event's listener
@@ -184,7 +184,7 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         if(cursor != null && cursor.moveToFirst()) {
 
             // Retrieve the EditTexts
-            EditText nameEditText = Objects.requireNonNull(mNameTextInputLayout.getEditText(),
+            EditText nameFEditText = Objects.requireNonNull(mNameFTextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
             EditText phoneEditText = Objects.requireNonNull(mPhoneTextInputLayout.getEditText(),
@@ -193,35 +193,35 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
             EditText emailEditText = Objects.requireNonNull(mEmailTextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
-            EditText streetEditText = Objects.requireNonNull(mStreetTextInputLayout.getEditText(),
+            EditText nameIEditText = Objects.requireNonNull(mNameITextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
-            EditText cityEditText = Objects.requireNonNull(mCityTextInputLayout.getEditText(),
+            EditText nameOEditText = Objects.requireNonNull(mNameOTextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
-            EditText stateEditText = Objects.requireNonNull(mStateTextInputLayout.getEditText(),
+            EditText loginEditText = Objects.requireNonNull(mLoginTextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
-            EditText zipEditText = Objects.requireNonNull(mZipTextInputLayout.getEditText(),
+            EditText pwdEditText = Objects.requireNonNull(mPwdTextInputLayout.getEditText(),
                     ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString());
 
             // Retrieve the data from the cursor
-            String name = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F));
-            String phone = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I));
+            String nameF = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F));
+            String nameI = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I));
             String email = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_EMAIL));
-            String street = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O));
-            String city = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PHONE));
-            String state = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN));
-            String zip = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PWD));
+            String nameO = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O));
+            String phone = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PHONE));
+            String login = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN));
+            String pwd = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PWD));
 
             // set and display the cursor data into the EditText
-            nameEditText.setText(name);
+            nameFEditText.setText(nameF);
             phoneEditText.setText(phone);
             emailEditText.setText(email);
-            streetEditText.setText(street);
-            cityEditText.setText(city);
-            stateEditText.setText(state);
-            zipEditText.setText(zip);
+            nameIEditText.setText(nameI);
+            nameOEditText.setText(nameO);
+            loginEditText.setText(login);
+            pwdEditText.setText(pwd);
         }
     }
 
@@ -234,7 +234,7 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         // Create ContentValues object containing contact's key-value pairs
         ContentValues contentValues = new ContentValues();
 
-        String name = Objects.requireNonNull(mNameTextInputLayout.getEditText(),
+        String name = Objects.requireNonNull(mNameFTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
         String phone = Objects.requireNonNull(mPhoneTextInputLayout.getEditText(),
@@ -243,25 +243,25 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         String email = Objects.requireNonNull(mEmailTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
-        String street = Objects.requireNonNull(mStreetTextInputLayout.getEditText(),
+        String nameI = Objects.requireNonNull(mNameITextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
-        String city = Objects.requireNonNull(mCityTextInputLayout.getEditText(),
+        String nameO = Objects.requireNonNull(mNameOTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
-        String state = Objects.requireNonNull(mStateTextInputLayout.getEditText(),
+        String login = Objects.requireNonNull(mLoginTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
-        String zip = Objects.requireNonNull(mZipTextInputLayout.getEditText(),
+        String pwd = Objects.requireNonNull(mPwdTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F, name);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I, phone);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_EMAIL, email);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O, street);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, city);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN, state);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PWD, zip);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O, nameI);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, nameO);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN, login);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PWD, pwd);
         if (mFind) doSearch(contentValues); else doSaveContact(contentValues);
     }
 

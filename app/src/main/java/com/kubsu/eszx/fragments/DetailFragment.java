@@ -43,13 +43,13 @@ public class DetailFragment extends Fragment
     private OnDetailFragmentInteractionListener mListener;
     private Uri mContactUri;
 
-    private TextView mNameTextView; // displays contact's name
-    private TextView mPhoneTextView; // displays contact's phone
-    private TextView mEmailTextView; // displays contact's email
-    private TextView mStreetTextView; // displays contact's street
-    private TextView mCityTextView; // displays contact's city
-    private TextView mStateTextView; // displays contact's state
-    private TextView mZipTextView; // displays contact's zip
+    private TextView mNameFTextView; // displays contact's name
+    private TextView mNameITextView; // displays contact's phone
+    private TextView mNameOTextView; // displays contact's email
+    private TextView mPhoneTextView; // displays contact's street
+    private TextView mEmailTextView; // displays contact's city
+    private TextView mLoginTextView; // displays contact's state
+    private TextView mPwdTextView; // displays contact's zip
 
     public DetailFragment() {
         // Required empty public constructor
@@ -79,13 +79,13 @@ public class DetailFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         // get the TextViews
-        mNameTextView = view.findViewById(R.id.nameFTextView);
-        mPhoneTextView = view.findViewById(R.id.nameITextView);
-        mEmailTextView = view.findViewById(R.id.nameOTextView);
-        mStreetTextView = view.findViewById(R.id.phoneTextView);
-        mCityTextView = view.findViewById(R.id.emailTextView);
-        mStateTextView = view.findViewById(R.id.loginTextView);
-        mZipTextView = view.findViewById(R.id.pwdTextView);
+        mNameFTextView = view.findViewById(R.id.nameFTextView);
+        mNameITextView = view.findViewById(R.id.nameITextView);
+        mNameOTextView = view.findViewById(R.id.nameOTextView);
+        mPhoneTextView = view.findViewById(R.id.phoneTextView);
+        mEmailTextView = view.findViewById(R.id.emailTextView);
+        mLoginTextView = view.findViewById(R.id.loginTextView);
+        mPwdTextView = view.findViewById(R.id.pwdTextView);
 
         // Get Bundle of args then extract the contact's uri
         Bundle args = getArguments();
@@ -162,22 +162,22 @@ public class DetailFragment extends Fragment
         if(cursor != null && cursor.moveToFirst()) {
 
             // Get the value for each data item
-            String name = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F));
-            String phone = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I));
+            String name_f = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F));
+            String name_i = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I));
             String email = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_EMAIL));
-            String street = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O));
-            String city = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PHONE));
-            String state = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN));
-            String zip = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PWD));
+            String name_o = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O));
+            String phone = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PHONE));
+            String login = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN));
+            String pwd = cursor.getString(cursor.getColumnIndex(AddressBookDatabaseDescription.Contact.COLUMN_PWD));
 
             // fill TextViews with the retrieved data
-            mNameTextView.setText(name);
+            mNameFTextView.setText(name_f);
+            mNameITextView.setText(name_i);
+            mNameOTextView.setText(name_o);
             mPhoneTextView.setText(phone);
             mEmailTextView.setText(email);
-            mStreetTextView.setText(street);
-            mCityTextView.setText(city);
-            mStateTextView.setText(state);
-            mZipTextView.setText(zip);
+            mLoginTextView.setText(login);
+            mPwdTextView.setText(pwd);
         }
     }
 
