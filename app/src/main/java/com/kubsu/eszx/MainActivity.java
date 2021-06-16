@@ -4,11 +4,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.kubsu.eszx.fragments.AddEditFragment;
 import com.kubsu.eszx.fragments.ContactsFragment;
 import com.kubsu.eszx.fragments.DetailFragment;
@@ -32,6 +35,23 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ToggleButton tgBtnFind = findViewById(R.id.tblBtnFind);
+        tgBtnFind.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (tgBtnFind.isChecked()) {
+                    displayFindFragment(R.id.fragmentContainer);
+                } else {
+                    ResetFind();
+                }
+                
+                
+                Snackbar.make(view, "Заполните поля поиска ", Snackbar.LENGTH_LONG)
+                        .setAction("Поиск->", null).show();
+            }
+        });
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +84,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void ResetFind() {
+        mContactsFragment.setFilter("");
+        mContactsFragment.updateContactList(); // refresh contacts
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //         Inflate the menu; this adds items to the action bar if it is present.
@@ -81,14 +106,14 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_find) {
             if (item.isChecked()) {
-                item.setTitle("Сбросить");
+                item.setTitle("Найти");
                 item.setChecked(false);
             } else {
-                item.setTitle("Найти");
                 displayFindFragment(R.id.fragmentContainer);
+                item.setTitle("Сбросить");
                 item.setChecked(true);
             }
-            return true;
+            return false;
         }
 
         return super.onOptionsItemSelected(item);

@@ -30,6 +30,8 @@ import com.kubsu.eszx.MainActivity;
 import com.kubsu.eszx.R;
 import com.kubsu.eszx.data.AddressBookDatabaseDescription;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 public class AddEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
@@ -256,10 +258,10 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F, name);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I, phone);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_I, nameI);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_EMAIL, email);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O, nameI);
-        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, nameO);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O, nameO);
+        contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, phone);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN, login);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PWD, pwd);
         if (mFind) doSearch(contentValues); else doSaveContact(contentValues);
@@ -304,7 +306,14 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
 
 //     TODO Поиск
 //        com.kubsu.eszx.data.AddressBookDatabaseDescription.Contact.COLUMN_NAME+" like '%s%'"
-        mListener.onSearchCompleted(AddressBookDatabaseDescription.Contact.COLUMN_NAME_F +" like '%s%'");
+        StringBuilder sb = new StringBuilder("0=0");
+         Iterator<Map.Entry<String, Object>> it =  contentValues.valueSet().iterator();
+            while(it.hasNext()) {
+                Map.Entry obj =(Map.Entry)it.next();
+                sb.append(" and "+ obj.getKey()+" like '%"+obj.getValue()+"%' ");
+            }
+        String s = sb.toString();
+        mListener.onSearchCompleted(s);
     }
 
     // Show saveButtonFAB only if name is not empty

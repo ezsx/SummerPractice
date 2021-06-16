@@ -117,7 +117,7 @@
                     android:id="@+id/editText7"
                     android:hint="@string/hint_pwd"
                     android:imeOptions="actionDone"
-                    android:inputType="number"/>
+                    android:inputType="textLongMessage"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
