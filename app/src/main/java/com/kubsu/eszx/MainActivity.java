@@ -2,10 +2,7 @@ package com.kubsu.eszx;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,22 +33,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ToggleButton tgBtnFind = findViewById(R.id.tblBtnFind);
-        tgBtnFind.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (tgBtnFind.isChecked()) {
-                    displayFindFragment(R.id.fragmentContainer);
-                } else {
-                    ResetFind();
-                }
-                
-                
-                Snackbar.make(view, "Заполните поля поиска ", Snackbar.LENGTH_LONG)
-                        .setAction("Поиск->", null).show();
-            }
-        });
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +65,17 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void ResetFind() {
+    private void resetFind() {
         mContactsFragment.setFilter("");
         mContactsFragment.updateContactList(); // refresh contacts
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
 //         Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
 //    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,6 +124,19 @@ public class MainActivity extends AppCompatActivity
 //             !!!  displayAddEditFragment(R.id.rightPaneContainer, null);
             displayAddEditFragment(R.id.fragmentContainer, null);
     }
+
+    @Override
+    public void onFindBtn(boolean isOn) {
+        if (isOn){
+            displayFindFragment(R.id.fragmentContainer);
+
+            Snackbar.make(findViewById(R.id.fragmentContainer) , "Заполните поля поиска ", Snackbar.LENGTH_LONG)
+                    .setAction("Поиск->", null).show();
+
+        }
+                else resetFind();
+    }
+
 
     // return to contact list when displayed contact deleted
     @Override

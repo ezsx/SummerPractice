@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.kubsu.eszx.ItemDivider;
 import com.kubsu.eszx.LogWrapper;
 import com.kubsu.eszx.R;
@@ -99,6 +101,15 @@ public class ContactsFragment extends Fragment
             LogWrapper.d("Adding new contact");
             mListener.onAddContact();
         });
+
+       ToggleButton tgBtnFind = view.findViewById(R.id.tblBtnFind);
+        tgBtnFind.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    mListener.onFindBtn(tgBtnFind.isChecked()); //displayFindFragment(R.id.fragmentContainer);
+            }
+        });
+
 
         return view;
     }
@@ -190,6 +201,7 @@ public class ContactsFragment extends Fragment
 
         void onContactSelected(Uri contactUri); // called when a contact is selected
         void onAddContact(); // called with add button is pressed
+        void onFindBtn(boolean isOn);
     }
 
 

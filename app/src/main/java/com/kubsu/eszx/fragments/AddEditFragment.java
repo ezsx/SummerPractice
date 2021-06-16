@@ -3,6 +3,7 @@ package com.kubsu.eszx.fragments;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.DrawableWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,8 +15,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.DrawableUtils;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
@@ -123,7 +126,6 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
 
         mSaveContactFAB = view.findViewById(R.id.saveFAB);
         mSaveContactFAB.setOnClickListener(mSaveContactButtonClicked); // set FAB event's listener
-        updateSaveButtonFAB(null);
 
         mCoordinatorLayout = Objects.requireNonNull(getActivity(),
                 ErrorMessages.ACTIVITY_NOT_NULL.toString()).findViewById(R.id.coordinatorLayout);
@@ -134,6 +136,7 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
             mContactUri = args.getParcelable(MainActivity.CONTACT_URI);
             mFind = (args.getInt(MainActivity.FIND_ACTION) == 1);
         }
+        updateSaveButtonFAB(null);
 
         return  view;
     }
@@ -320,10 +323,16 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
     private void updateSaveButtonFAB(String input) {
 
         // if there is a name for the contact, show the FAB
-        if(!TextUtils.isEmpty(input)) {
+        if (mFind) {
+            mSaveContactFAB.setImageResource(android.R.drawable.ic_search_category_default);
             mSaveContactFAB.show();
         } else {
-            mSaveContactFAB.hide();
+            mSaveContactFAB.setImageResource(R.drawable.ic_save_white_24dp);
+            if (!TextUtils.isEmpty(input)) {
+                mSaveContactFAB.show();
+            } else {
+                mSaveContactFAB.hide();
+            }
         }
     }
 

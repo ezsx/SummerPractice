@@ -23,25 +23,4 @@
 
     <include layout="@layout/content_main" />
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:buttonGravity="top|bottom">
-
-        <ToggleButton
-            android:id="@+id/tblBtnFind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tgbtnFind"
-            android:textOff="@string/tgbtn_find_off"
-            android:textOn="@string/tgbtn_find_on" />
-
-    </androidx.appcompat.widget.Toolbar>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
