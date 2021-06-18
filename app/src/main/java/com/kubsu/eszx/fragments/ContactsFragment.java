@@ -25,6 +25,7 @@ import com.kubsu.eszx.LogWrapper;
 import com.kubsu.eszx.R;
 import com.kubsu.eszx.adapters.ContactsAdapter;
 import com.kubsu.eszx.data.AddressBookDatabaseDescription;
+import android.widget.RemoteViews;
 
 import java.util.Objects;
 
@@ -56,6 +57,8 @@ public class ContactsFragment extends Fragment
 
     public void setOrder(String s,String l){
         fld_sorted = s;
+        RemoteViews remoteViews = new RemoteViews(this.getContext().getPackageName(), R.layout.fragment_sort_fld);
+        remoteViews.setTextViewText(R.id.btnSort, l);
         getLoaderManager().restartLoader(CONTACT_LOADER, null, this);
     }
 
@@ -118,7 +121,7 @@ public class ContactsFragment extends Fragment
             }
         });
 
-        Button btnSort = view.findViewById(R.id.btnSort);
+        btnSort = view.findViewById(R.id.btnSort);
         btnSort.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
