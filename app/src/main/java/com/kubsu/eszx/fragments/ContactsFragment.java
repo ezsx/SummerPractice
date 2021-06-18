@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.kubsu.eszx.ItemDivider;
 import com.kubsu.eszx.LogWrapper;
 import com.kubsu.eszx.R;
@@ -46,11 +46,19 @@ public class ContactsFragment extends Fragment
 
     private  CursorLoader mCursor;
     private String filter_str;
+    private String fld_sorted = AddressBookDatabaseDescription.Contact.COLUMN_NAME_F;
+    private Button btnSort;
 
     // constructor
     public ContactsFragment() {
 
     }
+
+    public void setOrder(String s,String l){
+        fld_sorted = s;
+        getLoaderManager().restartLoader(CONTACT_LOADER, null, this);
+    }
+
 
     public void setFilter(String s){
         filter_str = s;
@@ -110,6 +118,14 @@ public class ContactsFragment extends Fragment
             }
         });
 
+        Button btnSort = view.findViewById(R.id.btnSort);
+        btnSort.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onSortBtn();
+            }
+        });
+
 
         return view;
     }
@@ -165,7 +181,7 @@ public class ContactsFragment extends Fragment
                         null,           // null projection returns all columns
                         filter_str,           // null selection returns all rows
                         null,       // no selection args
-                        AddressBookDatabaseDescription.Contact.COLUMN_NAME_F + " COLLATE NOCASE ASC");
+                        fld_sorted  + " COLLATE NOCASE ASC");
                 return mCursor;
 
             default: return null;
@@ -202,6 +218,7 @@ public class ContactsFragment extends Fragment
         void onContactSelected(Uri contactUri); // called when a contact is selected
         void onAddContact(); // called with add button is pressed
         void onFindBtn(boolean isOn);
+        void onSortBtn();
     }
 
 

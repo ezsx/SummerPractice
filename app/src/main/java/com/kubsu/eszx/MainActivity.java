@@ -12,11 +12,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.kubsu.eszx.fragments.AddEditFragment;
 import com.kubsu.eszx.fragments.ContactsFragment;
 import com.kubsu.eszx.fragments.DetailFragment;
+import com.kubsu.eszx.fragments.SortFldFragment;
 
 public class MainActivity extends AppCompatActivity
         implements ContactsFragment.OnContactFragmentInteractionListener,
         DetailFragment.OnDetailFragmentInteractionListener,
-        AddEditFragment.OnAddEditFragmentInteractionListener {
+        AddEditFragment.OnAddEditFragmentInteractionListener,
+        SortFldFragment.OnSortFldFragmentInteractionListener {
     // Key for storing a contact's Uri in a Bundle passed to a fragment
     public static final String CONTACT_URI = "contact_uri";
     public static final String CONTACT_FRAGMENT_TAG = "contact_fragment";
@@ -114,6 +116,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+   //    SortFldFragment.OnSortFldFragmentInteractionListener
+    @Override
+    public void onSortCompleted(String fldSort, String fldLabel) {
+        getSupportFragmentManager().popBackStack();
+//        .setFilter_str(filter);
+        mContactsFragment.setOrder(fldSort,fldLabel);
+        mContactsFragment.updateContactList(); // refresh contacts
+    }
+
     // display AddEditFragment to add contact
     @Override
     public void onAddContact() {
@@ -135,6 +146,17 @@ public class MainActivity extends AppCompatActivity
 
         }
                 else resetFind();
+    }
+
+
+    @Override
+    public void onSortBtn() {
+        displaySortFragment(R.id.fragmentContainer);
+
+        Snackbar.make(findViewById(R.id.fragmentContainer) , "Выберите поле для сортировки", Snackbar.LENGTH_LONG)
+                .setAction("Сортировка->", null).show();
+
+
     }
 
 
@@ -242,5 +264,23 @@ public class MainActivity extends AppCompatActivity
         transaction.addToBackStack(null);
         transaction.commit(); // causes AddEditFragment to display
     }
+
+    private void displaySortFragment(int viewID) {
+
+        SortFldFragment sortFldFragment = new SortFldFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable(CONTACT_URI, null);
+        args.putInt(FIND_ACTION, 1);
+        sortFldFragment.setArguments(args);
+
+
+        // Use a FragmentTransaction to display the AddEditFragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(viewID, sortFldFragment);
+        transaction.addToBackStack(null);
+        transaction.commit(); // causes AddEditFragment to display
+    }
+
 
 }
