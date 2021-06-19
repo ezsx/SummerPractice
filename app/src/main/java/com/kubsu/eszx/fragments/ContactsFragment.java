@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,8 @@ public class ContactsFragment extends Fragment
     private  CursorLoader mCursor;
     private String filter_str;
     private String fld_sorted = AddressBookDatabaseDescription.Contact.COLUMN_NAME_F;
-    private Button btnSort;
+    private String lbl_sorted = "Фамилия.";
+
 
     // constructor
     public ContactsFragment() {
@@ -57,8 +59,7 @@ public class ContactsFragment extends Fragment
 
     public void setOrder(String s,String l){
         fld_sorted = s;
-        RemoteViews remoteViews = new RemoteViews(this.getContext().getPackageName(), R.layout.fragment_sort_fld);
-        remoteViews.setTextViewText(R.id.btnSort, l);
+        lbl_sorted = l;
         getLoaderManager().restartLoader(CONTACT_LOADER, null, this);
     }
 
@@ -121,14 +122,15 @@ public class ContactsFragment extends Fragment
             }
         });
 
-        btnSort = view.findViewById(R.id.btnSort);
+        Button btnSort = view.findViewById(R.id.btnSort);
         btnSort.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onSortBtn();
             }
         });
-
+        btnSort.setText(lbl_sorted);
+//        view.refreshDrawableState();
 
         return view;
     }
@@ -174,6 +176,11 @@ public class ContactsFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
+        String[] s_arr = new String[3];
+        s_arr[0] = AddressBookDatabaseDescription.Contact.COLUMN_ID;
+        s_arr[1] = AddressBookDatabaseDescription.Contact.COLUMN_NAME_F+"||' '||"+fld_sorted+" as  name_f";
+        s_arr[2] = fld_sorted;
+
         // Create an appropriate CursorLoader based on the id argument
         switch (id) {
 
@@ -181,7 +188,7 @@ public class ContactsFragment extends Fragment
                 mCursor =
                 new CursorLoader(Objects.requireNonNull(getActivity()),
                         AddressBookDatabaseDescription.Contact.CONTENT_URI,      // Uri of contacts table
-                        null,           // null projection returns all columns
+                        s_arr,           // null projection returns all columns
                         filter_str,           // null selection returns all rows
                         null,       // no selection args
                         fld_sorted  + " COLLATE NOCASE ASC");

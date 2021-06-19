@@ -1,5 +1,8 @@
 package com.kubsu.eszx;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +16,8 @@ import com.kubsu.eszx.fragments.AddEditFragment;
 import com.kubsu.eszx.fragments.ContactsFragment;
 import com.kubsu.eszx.fragments.DetailFragment;
 import com.kubsu.eszx.fragments.SortFldFragment;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements ContactsFragment.OnContactFragmentInteractionListener,
@@ -157,6 +162,27 @@ public class MainActivity extends AppCompatActivity
                 .setAction("Сортировка->", null).show();
 
 
+    }
+
+    @Override
+    public void onMailSend(CharSequence email) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+// The intent does not have a URI, so declare the "text/plain" MIME type
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email.toString()}); // recipients
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message text");
+        //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
+// You can also attach multiple items by passing an ArrayList of Uris
+// Verify it resolves
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(emailIntent, 0);
+        boolean isIntentSafe = activities.size() > 0;
+
+// Start an activity if it's safe
+        if (isIntentSafe) {
+            startActivity(emailIntent);
+        }
     }
 
 

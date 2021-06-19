@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -92,6 +93,14 @@ public class DetailFragment extends Fragment
         if(args != null) {
             mContactUri = args.getParcelable(MainActivity.CONTACT_URI);
         }
+        Button btnMail = view.findViewById(R.id.btnMail);
+        btnMail.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onMailSend(mEmailTextView.getText());
+            }
+        });
+
 
         return  view;
     }
@@ -215,6 +224,7 @@ public class DetailFragment extends Fragment
 
         // pass Uri of contact to edit to the OnDetailFragmentInteractionListener
         void onEditContact(Uri contactUri);
+        void onMailSend(CharSequence email);
     }
 
 }

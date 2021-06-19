@@ -52,6 +52,9 @@ public class SortFldFragment extends Fragment implements View.OnClickListener{
         if (lbl.equals(rb.getContext().getString(R.string.label_phone))) {
              s = AddressBookDatabaseDescription.Contact.COLUMN_PHONE;
         }
+        if (lbl.equals(rb.getContext().getString(R.string.label_pwd))) {
+            s = AddressBookDatabaseDescription.Contact.COLUMN_PWD;
+        }
         mListener.onSortCompleted(s,lbl);
     }
 
