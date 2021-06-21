@@ -40,6 +40,15 @@
     <string name="insert_failed">Insert failed: %s</string>
     <string name="tgbtn_find_on">Сбросить</string>
     <string name="tgbtn_find_off">Найти</string>
+    <string name="not_valid">че то сломалось</string>
+    <string name="not_valid_name_f">Фамилия некоректена</string>
+    <string name="not_valid_name_o">Отчечтво некоректено</string>
+    <string name="not_valid_name_i">Имя некоректено</string>
+    <string name="not_valid_phone">Номер телефона некоректен</string>
+    <string name="not_valid_email">Почта некоректена</string>
+    <string name="not_valid_login">Логин некоректен</string>
+    <string name="not_valid_pwd">Пароль некоректен</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tgbtnFind">Поиск</string>

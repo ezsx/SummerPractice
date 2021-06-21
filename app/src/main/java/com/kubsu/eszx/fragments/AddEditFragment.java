@@ -37,6 +37,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public class AddEditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     /* Private Members */
@@ -230,12 +234,40 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    public static class  LoginValidator {
+
+        private static Pattern VALID_Login =
+                Pattern.compile("^[a-zA-Z0-9._-]{3,}$");
+
+        public static boolean isValidLogin(String s) {
+
+            Matcher m = VALID_Login.matcher(s);
+
+            return m.matches();
+        }
+
+    }
+    public static class  PhoneNumberValidator {
+
+        private static Pattern VALID_PHONE_NUMBER =
+                Pattern.compile("^[0-9.()-]{10,25}$");
+
+        public static boolean isValidPhoneNumber(String s) {
+
+            Matcher m = VALID_PHONE_NUMBER.matcher(s);
+
+            return m.matches();
+        }
+
+    }
+
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {	}
 
     // saves contact information to the database
     private void saveContact() {
-
+        boolean checked = false;
+        int error_msg = R.string.not_valid;
         // Create ContentValues object containing contact's key-value pairs
         ContentValues contentValues = new ContentValues();
 
@@ -244,7 +276,8 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
 
         String phone = Objects.requireNonNull(mPhoneTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
-
+        checked = PhoneNumberValidator.isValidPhoneNumber(phone);
+        if (!checked) error_msg = R.string.not_valid_phone;
         String email = Objects.requireNonNull(mEmailTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
@@ -256,7 +289,8 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
 
         String login = Objects.requireNonNull(mLoginTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
-
+        checked = LoginValidator.isValidLogin(login);
+        if (!checked) error_msg = R.string.not_valid_login;
         String pwd = Objects.requireNonNull(mPwdTextInputLayout.getEditText(),
                 ErrorMessages.TEXT_INPUT_LAYOUT_NO_EDITTEXT.toString()).getText().toString();
 
@@ -267,7 +301,12 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, phone);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN, login);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PWD, pwd);
-        if (mFind) doSearch(contentValues); else doSaveContact(contentValues);
+
+        if (checked) {
+            if (mFind) doSearch(contentValues);
+            else doSaveContact(contentValues);
+        }else Snackbar.make(mCoordinatorLayout, error_msg, Snackbar.LENGTH_LONG).show();
+
     }
 
     private void doSaveContact(ContentValues contentValues) {
