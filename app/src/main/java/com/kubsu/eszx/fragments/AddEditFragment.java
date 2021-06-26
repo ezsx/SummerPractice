@@ -29,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kubsu.eszx.ErrorMessages;
+import com.kubsu.eszx.MD5Hash;
 import com.kubsu.eszx.MainActivity;
 import com.kubsu.eszx.R;
 import com.kubsu.eszx.data.AddressBookDatabaseDescription;
@@ -299,6 +300,7 @@ public class AddEditFragment extends Fragment implements LoaderManager.LoaderCal
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_EMAIL, email);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_NAME_O, nameO);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PHONE, phone);
+        login = MD5Hash.get_hash(pwd);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_LOGIN, login);
         contentValues.put(AddressBookDatabaseDescription.Contact.COLUMN_PWD, pwd);
 
